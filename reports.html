@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports & Analytics - Farm Produce Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* FarmBot Styles */
+        .farmbot-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .farmbot-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .farmbot-icon {
+            font-size: 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .farmbot-chat {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+        }
+
+        .farmbot-message {
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            border-radius: 18px;
+            max-width: 85%;
+            line-height: 1.4;
+            font-size: 0.9rem;
+            word-wrap: break-word;
+        }
+
+        .farmbot-message.user {
+            background: var(--primary-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+
+        .farmbot-message.bot {
+            background: var(--white);
+            color: var(--text-dark);
+            border: 1px solid #e2e8f0;
+            border-bottom-left-radius: 4px;
+            white-space: pre-line;
+        }
+
+        .farmbot-input {
+            display: flex;
+            gap: 8px;
+        }
+
+        .farmbot-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            min-width: 0;
+        }
+
+        .farmbot-input button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .farmbot-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .farmbot-suggestion {
+            background: var(--white);
+            border: 1px solid #e2e8f0;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .farmbot-suggestion:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .report-actions .btn-small {
+            padding: 4px 8px;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE1IDI3LjVDMjEuOTAzNiAyNy41IDI3LjUgMjEuOTAzNiAyNy41IDE1QzI3LjUgOC4wOTY0NCAyMS45MDM2IDIuNSAxNSAyLjVDOC4wOTY0NCAyLjUgMi41IDguMDk2NDQgMi41IDE1QzIuNSAyMS45MDM2IDguMDk2NDQgMjcuNSAxNSAyNy41WiIgc3Ryb2tlPSIjM2NhMzc1IiBzdHJva2Utd2lkdGg9IjIiLz4KPHBhdGggZD0iTTEwIDEySDE5TTEwIDE3SDE2TTEwIDIySDE0IiBzdHJva2U9IiMzY2EzNzUiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4K" alt="Farm Logo">
+                <span>FarmTracker</span>
+            </div>
+            <button class="menu-toggle">☰</button>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><a href="crops.html" class="nav-link">Crops</a></li>
+                <li class="nav-item"><a href="livestock.html" class="nav-link">Livestock</a></li>
+                <li class="nav-item"><a href="sales.html" class="nav-link">Sales</a></li>
+                <li class="nav-item"><a href="reports.html" class="nav-link active">Reports</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-content">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Farm Reports & Analytics</h1>
+                <p>Comprehensive insights into your farm's performance</p>
+            </div>
+
+            <!-- FarmBot AI Assistant -->
+            <div class="farmbot-container">
+                <div class="farmbot-header">
+                    <div class="farmbot-icon">🤖</div>
+                    <div>
+                        <h3>FarmBot AI Assistant</h3>
+                        <p>Get personalized farming advice based on your data</p>
+                    </div>
+                </div>
+                <div class="farmbot-chat" id="farmbotChat">
+                    <div class="farmbot-message bot">
+                        Hello! I'm FarmBot, your farming assistant. I can help you with:
+
+Financial Performance - Profit analysis and revenue tips
+Crop Management - Yield improvements and planting advice  
+Livestock Health - Animal care and breeding tips
+Business Growth - Sales strategies and market opportunities
+
+What would you like to improve on your farm today?
+                    </div>
+                </div>
+                <div class="farmbot-input">
+                    <input type="text" id="farmbotInput" placeholder="Ask about profits, crops, livestock, or business advice..." onkeypress="handleFarmBotKeypress(event)">
+                    <button onclick="sendFarmBotMessage()">Send</button>
+                </div>
+                <div class="farmbot-suggestions">
+                    <div class="farmbot-suggestion" onclick="askFarmBot('Am I making profit or loss? How can I improve?')">Profit Analysis</div>
+                    <div class="farmbot-suggestion" onclick="askFarmBot('Which crops are most profitable?')">Crop Advice</div>
+                    <div class="farmbot-suggestion" onclick="askFarmBot('How can I increase my livestock value?')">Livestock Tips</div>
+                    <div class="farmbot-suggestion" onclick="askFarmBot('What should I focus on to grow my farm?')">Growth Strategy</div>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="dashboard-cards">
+                <div class="dashboard-card">
+                    <h3>Total Inventory Value</h3>
+                    <div class="value" id="totalInventoryValue">N$ 0</div>
+                    <p>Current stock worth</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Monthly Revenue</h3>
+                    <div class="value" id="monthlyRevenue">N$ 0</div>
+                    <p>This month's income</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Active Crops</h3>
+                    <div class="value" id="activeCropsCount">0</div>
+                    <p>Different crop types</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Total Animals</h3>
+                    <div class="value" id="totalAnimalsCount">0</div>
+                    <p>Livestock count</p>
+                </div>
+            </div>
+
+            <!-- Reports Grid -->
+            <div class="features-grid" style="margin: 40px 0;">
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Sales Trends</h3>
+                    <p>View your sales performance over time and identify patterns</p>
+                    <button class="btn btn-primary" onclick="generateSalesReport()">Generate Report</button>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌾</div>
+                    <h3>Crop Analytics</h3>
+                    <p>Analyze crop yields, planting cycles, and harvest data</p>
+                    <button class="btn btn-primary" onclick="generateCropReport()">Generate Report</button>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🐄</div>
+                    <h3>Livestock Reports</h3>
+                    <p>Track animal health, growth, and production metrics</p>
+                    <button class="btn btn-primary" onclick="generateLivestockReport()">Generate Report</button>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Financial Summary</h3>
+                    <p>Comprehensive financial overview and profit analysis</p>
+                    <button class="btn btn-primary" onclick="generateFinancialReport()">Generate Report</button>
+                </div>
+            </div>
+
+            <!-- Recent Reports -->
+            <div class="data-table">
+                <h3>Recent Reports</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Report Type</th>
+                            <th>Generated Date</th>
+                            <th>Time Period</th>
+                            <th>Summary</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportsTable">
+                        <tr>
+                            <td>Monthly Sales Summary</td>
+                            <td>March 15, 2025</td>
+                            <td>March 2025</td>
+                            <td>Total sales: N$ 8,500 | Top product: Maize</td>
+                            <td class="report-actions">
+                                <button class="btn-small" onclick="viewReport('sales')">View</button> 
+                                <button class="btn-small" onclick="downloadReport('sales')">Download</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Crop Inventory</td>
+                            <td>March 10, 2025</td>
+                            <td>Q1 2025</td>
+                            <td>3 active crops | 800kg total inventory</td>
+                            <td class="report-actions">
+                                <button class="btn-small" onclick="viewReport('crop')">View</button> 
+                                <button class="btn-small" onclick="downloadReport('crop')">Download</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Livestock Health</td>
+                            <td>March 5, 2025</td>
+                            <td>February 2025</td>
+                            <td>75 animals | 92% healthy</td>
+                            <td class="report-actions">
+                                <button class="btn-small" onclick="viewReport('livestock')">View</button> 
+                                <button class="btn-small" onclick="downloadReport('livestock')">Download</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="data-table">
+                <h3>Quick Statistics</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>This Month</th>
+                            <th>Last Month</th>
+                            <th>Change</th>
+                        </tr>
+                    </thead>
+                    <tbody id="statsTable">
+                        <!-- Stats will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Farm Produce Tracker. Empowering Namibian Farmers.</p>
+        </div>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+    <script>
+        // FarmBot AI Assistant Functions
+        function sendFarmBotMessage() {
+            const input = document.getElementById('farmbotInput');
+            const message = input.value.trim();
+
+            if (message) {
+                addMessageToChat(message, 'user');
+                input.value = '';
+
+                // Simulate AI thinking
+                setTimeout(() => {
+                    const response = generateFarmBotResponse(message);
+                    addMessageToChat(response, 'bot');
+                }, 1000);
+            }
+        }
+
+        function handleFarmBotKeypress(event) {
+            if (event.key === 'Enter') {
+                sendFarmBotMessage();
+            }
+        }
+
+        function askFarmBot(question) {
+            document.getElementById('farmbotInput').value = question;
+            sendFarmBotMessage();
+        }
+
+        function addMessageToChat(message, sender) {
+            const chat = document.getElementById('farmbotChat');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `farmbot-message ${sender}`;
+            messageDiv.textContent = message;
+            chat.appendChild(messageDiv);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function generateFarmBotResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            const farmData = {
+                crops: JSON.parse(localStorage.getItem('crops')) || [],
+                livestock: JSON.parse(localStorage.getItem('livestock')) || [],
+                sales: JSON.parse(localStorage.getItem('sales')) || []
+            };
+
+            // Financial Analysis & Profit Questions
+            if (lowerMessage.includes('profit') || lowerMessage.includes('loss') || 
+                lowerMessage.includes('financial') || lowerMessage.includes('revenue') || 
+                lowerMessage.includes('make money') || lowerMessage.includes('income') ||
+                lowerMessage.includes('improve') && lowerMessage.includes('financial')) {
+
+                return generateFinancialAdvice(farmData);
+            }
+
+            // Crop Profitability & Management
+            if ((lowerMessage.includes('crop') && lowerMessage.includes('profit')) || 
+                lowerMessage.includes('which crop') || lowerMessage.includes('best crop') ||
+                lowerMessage.includes('crop advice') || lowerMessage.includes('crop yield')) {
+
+                return generateCropAdvice(farmData);
+            }
+
+            // Livestock Value & Management
+            if (lowerMessage.includes('livestock') || lowerMessage.includes('animal') || 
+                lowerMessage.includes('cattle') || lowerMessage.includes('goat') ||
+                lowerMessage.includes('increase') && lowerMessage.includes('livestock')) {
+
+                return generateLivestockAdvice(farmData);
+            }
+
+            // Business Growth & Strategy
+            if (lowerMessage.includes('grow') || lowerMessage.includes('expand') || 
+                lowerMessage.includes('business') || lowerMessage.includes('strategy') ||
+                lowerMessage.includes('focus') || lowerMessage.includes('next step')) {
+
+                return generateGrowthStrategy(farmData);
+            }
+
+            // Sales & Market Advice
+            if (lowerMessage.includes('sale') || lowerMessage.includes('market') || 
+                lowerMessage.includes('buyer') || lowerMessage.includes('price') ||
+                lowerMessage.includes('sell more')) {
+
+                return generateSalesAdvice(farmData);
+            }
+
+            // General farm performance
+            if (lowerMessage.includes('how am i doing') || lowerMessage.includes('performance') ||
+                lowerMessage.includes('overview') || lowerMessage.includes('summary')) {
+
+                return generateFarmOverview(farmData);
+            }
+
+            // Help and capabilities
+            if (lowerMessage.includes('help') || lowerMessage.includes('what can you do')) {
+                return "I can help you analyze your farm data and provide advice on:\n\n- Financial performance and profits\n- Crop management and yields\n- Livestock health and value\n- Business growth strategies\n- Sales and market opportunities\n\nWhat specific area would you like help with?";
+            }
+
+            // Default response
+            return "I understand you're asking about: " + message + "\n\nI specialize in farming business advice based on your data. You can ask me about profits, crops, livestock, or business growth. What specific farming question can I help you with?";
+        }
+
+        function generateFinancialAdvice(farmData) {
+            const totalSales = farmData.sales.reduce((sum, sale) => sum + parseFloat(sale.amount), 0);
+            const inventoryValue = calculateInventoryValue(farmData);
+
+            if (totalSales === 0) {
+                return "Financial Status: Starting Phase\n\nYou haven't recorded sales yet. Your current inventory is worth N$ " + inventoryValue.toFixed(2) + ".\n\nTo start making profits:\n1. Begin selling your products\n2. Record all sales transactions\n3. Focus on your most valuable items first";
+            }
+
+            const monthlyAvg = totalSales / Math.max(farmData.sales.length, 1);
+            const topProduct = getTopSellingProduct(farmData);
+
+            let advice = "Financial Analysis:\n\n";
+            advice += "Total Revenue: N$ " + totalSales.toFixed(2) + "\n";
+            advice += "Average Sale: N$ " + monthlyAvg.toFixed(2) + "\n";
+            advice += "Inventory Value: N$ " + inventoryValue.toFixed(2) + "\n";
+            advice += "Best Product: " + topProduct + "\n\n";
+
+            advice += "To improve profits:\n";
+
+            if (monthlyAvg < 1000) {
+                advice += "1. Focus on selling more " + topProduct + "\n";
+            }
+
+            if (farmData.sales.length < 10) {
+                advice += "2. Increase your sales frequency\n";
+            }
+
+            advice += "3. Consider expanding your buyer network\n";
+            advice += "4. Track which products bring highest returns";
+
+            return advice;
+        }
+
+        function generateCropAdvice(farmData) {
+            if (farmData.crops.length === 0) {
+                return "You haven't added any crops yet.\n\nTo get started:\n1. Begin with staple crops like Maize or Mahangu\n2. Track planting and harvest dates\n3. Record quantities to monitor yields\n4. Update crop status as they grow";
+            }
+
+            const crops = farmData.crops;
+            const readyCrops = crops.filter(c => c.status === 'ready').length;
+            const growingCrops = crops.filter(c => c.status === 'growing').length;
+
+            let advice = "Crop Analysis:\n\n";
+            advice += "You have " + crops.length + " crop types\n";
+            advice += readyCrops + " ready for harvest\n";
+            advice += growingCrops + " still growing\n\n";
+
+            advice += "Recommendations:\n";
+
+            if (readyCrops > 0) {
+                advice += "1. Harvest and sell your ready crops\n";
+            }
+
+            if (growingCrops > 0) {
+                advice += "2. Continue caring for growing crops\n";
+            }
+
+            if (crops.length < 3) {
+                advice += "3. Consider adding more crop types\n";
+            }
+
+            advice += "4. Track which crops sell best";
+
+            return advice;
+        }
+
+        function generateLivestockAdvice(farmData) {
+            if (farmData.livestock.length === 0) {
+                return "No livestock recorded yet.\n\nTo start with livestock:\n1. Begin with small animals like goats or chickens\n2. Track animal health regularly\n3. Record acquisition dates and quantities\n4. Plan for herd growth over time";
+            }
+
+            const livestock = farmData.livestock;
+            const totalAnimals = livestock.reduce((sum, animal) => sum + parseInt(animal.quantity), 0);
+            const healthyAnimals = livestock.filter(a => a.healthStatus === 'healthy').length;
+
+            let advice = "Livestock Analysis:\n\n";
+            advice += "Total animals: " + totalAnimals + "\n";
+            advice += "Healthy herds: " + healthyAnimals + " out of " + livestock.length + "\n\n";
+
+            advice += "Your animals:\n";
+            livestock.forEach(animal => {
+                advice += "- " + animal.quantity + " " + animal.type + " (" + animal.healthStatus + ")\n";
+            });
+
+            advice += "\nTo increase value:\n";
+
+            if (healthyAnimals === livestock.length) {
+                advice += "1. Your herds are healthy - good for expansion\n";
+            } else {
+                advice += "1. Address health issues first\n";
+            }
+
+            if (totalAnimals < 50) {
+                advice += "2. Consider breeding to grow your herds\n";
+            }
+
+            advice += "3. Explore different markets for your animals\n";
+            advice += "4. Maintain good health records";
+
+            return advice;
+        }
+
+        function generateGrowthStrategy(farmData) {
+            const totalSales = farmData.sales.reduce((sum, sale) => sum + parseFloat(sale.amount), 0);
+
+            let advice = "Business Growth Strategy:\n\n";
+
+            if (totalSales === 0) {
+                advice += "Current Stage: Foundation Building\n\nFocus on:\n1. Recording your first sales\n2. Building customer relationships\n3. Testing different products\n4. Establishing basic operations";
+            } else if (totalSales < 5000) {
+                advice += "Current Stage: Early Growth\n\nFocus on:\n1. Scaling your best products\n2. Building repeat customers\n3. Improving efficiency\n4. Moderate expansion";
+            } else {
+                advice += "Current Stage: Established Business\n\nFocus on:\n1. Product diversification\n2. New market opportunities\n3. Value-added products\n4. Advanced farming methods";
+            }
+
+            return advice;
+        }
+
+        function generateSalesAdvice(farmData) {
+            const sales = farmData.sales;
+            if (sales.length === 0) {
+                return "No sales recorded yet.\n\nTo start selling:\n1. Begin with local markets\n2. Sell to neighbors and community\n3. Approach local stores\n4. Record every sale for tracking";
+            }
+
+            const totalSales = sales.reduce((sum, sale) => sum + parseFloat(sale.amount), 0);
+            const topBuyer = getTopBuyer(farmData);
+            const bestProduct = getTopSellingProduct(farmData);
+
+            let advice = "Sales Performance:\n\n";
+            advice += "Total Sales: N$ " + totalSales.toFixed(2) + "\n";
+            advice += "Transactions: " + sales.length + "\n";
+            advice += "Best Customer: " + topBuyer + "\n";
+            advice += "Top Product: " + bestProduct + "\n\n";
+
+            advice += "To improve sales:\n";
+            advice += "1. Focus on your best customer: " + topBuyer + "\n";
+            advice += "2. Promote your top product: " + bestProduct + "\n";
+
+            if (sales.length < 10) {
+                advice += "3. Increase sales frequency\n";
+            }
+
+            advice += "4. Expand your buyer network";
+
+            return advice;
+        }
+
+        function generateFarmOverview(farmData) {
+            const totalSales = farmData.sales.reduce((sum, sale) => sum + parseFloat(sale.amount), 0);
+            const cropCount = farmData.crops.length;
+            const livestockCount = farmData.livestock.reduce((sum, animal) => sum + parseInt(animal.quantity), 0);
+            const inventoryValue = calculateInventoryValue(farmData);
+
+            let overview = "Farm Performance Overview:\n\n";
+            overview += "Total Revenue: N$ " + totalSales.toFixed(2) + "\n";
+            overview += "Active Crops: " + cropCount + " types\n";
+            overview += "Livestock: " + livestockCount + " animals\n";
+            overview += "Inventory Value: N$ " + inventoryValue.toFixed(2) + "\n";
+            overview += "Sales Transactions: " + farmData.sales.length + "\n\n";
+
+            if (totalSales === 0) {
+                overview += "Status: Ready for First Sales\nNext Step: Record your first sale to start tracking revenue";
+            } else if (totalSales < 3000) {
+                overview += "Status: Growing Steadily\nNext Step: Focus on increasing sales frequency";
+            } else {
+                overview += "Status: Well Established\nNext Step: Explore expansion opportunities";
+            }
+
+            return overview;
+        }
+
+        // Helper functions
+        function calculateInventoryValue(farmData) {
+            const cropValue = farmData.crops.reduce((sum, crop) => sum + (parseFloat(crop.quantity) * 10), 0);
+            const livestockValue = farmData.livestock.reduce((sum, animal) => sum + (parseInt(animal.quantity) * 100), 0);
+            return cropValue + livestockValue;
+        }
+
+        function getTopBuyer(farmData) {
+            const buyerCounts = {};
+            farmData.sales.forEach(sale => {
+                buyerCounts[sale.buyer] = (buyerCounts[sale.buyer] || 0) + 1;
+            });
+            return Object.keys(buyerCounts).reduce((a, b) => buyerCounts[a] > buyerCounts[b] ? a : b, 'No frequent buyers yet');
+        }
+
+        function getTopSellingProduct(farmData) {
+            const productSales = {};
+            farmData.sales.forEach(sale => {
+                productSales[sale.itemName] = (productSales[sale.itemName] || 0) + parseFloat(sale.amount);
+            });
+            return Object.keys(productSales).reduce((a, b) => productSales[a] > productSales[b] ? a : b, 'No products sold yet');
+        }
+
+        // Report View and Download Functions
+        function viewReport(type) {
+            switch(type) {
+                case 'sales':
+                    generateSalesReport();
+                    showSuccess('Sales report opened in new window!');
+                    break;
+                case 'crop':
+                    generateCropReport();
+                    showSuccess('Crop report opened in new window!');
+                    break;
+                case 'livestock':
+                    generateLivestockReport();
+                    showSuccess('Livestock report opened in new window!');
+                    break;
+                default:
+                    showError('Report type not recognized');
+            }
+        }
+
+        function downloadReport(type) {
+            switch(type) {
+                case 'sales':
+                    generateSalesReport();
+                    break;
+                case 'crop':
+                    generateCropReport();
+                    break;
+                case 'livestock':
+                    generateLivestockReport();
+                    break;
+                default:
+                    showError('Report type not recognized');
+            }
+        }
+
+        // Utility functions for showing messages
+        function showSuccess(message) {
+            alert('Success: ' + message);
+        }
+
+        function showError(message) {
+            alert('Error: ' + message);
+        }
+    </script>
+</body>
+              </html>
