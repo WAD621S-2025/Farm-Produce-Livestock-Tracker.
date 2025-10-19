@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Farm Produce Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE1IDI3LjVDMjEuOTAzNiAyNy41IDI3LjUgMjEuOTAzNiAyNy41IDE1QzI3LjUgOC4wOTY0NCAyMS45MDM2IDIuNSAxNSAyLjVDOC4wOTY0NCAyLjUgMi41IDguMDk2NDQgMi41IDE1QzIuNSAyMS45MDM2IDguMDk2NDQgMjcuNSAxNSAyNy41WiIgc3Ryb2tlPSIjM2NhMzc1IiBzdHJva2Utd2lkdGg9IjIiLz4KPHBhdGggZD0iTTEwIDEySDE5TTEwIDE3SDE2TTEwIDIySDE0IiBzdHJva2U9IiMzY2EzNzUiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4K" alt="Farm Logo">
+                <span>FarmTracker</span>
+            </div>
+            <button class="menu-toggle">☰</button>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+                <li class="nav-item"><a href="crops.html" class="nav-link">Crops</a></li>
+                <li class="nav-item"><a href="livestock.html" class="nav-link">Livestock</a></li>
+                <li class="nav-item"><a href="sales.html" class="nav-link">Sales</a></li>
+                <li class="nav-item"><a href="reports.html" class="nav-link">Reports</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Farm Dashboard</h1>
+                <p>Welcome back! Here's your farm overview for today.</p>
+            </div>
+
+            <div class="dashboard-cards">
+                <div class="dashboard-card">
+                    <h3>Total Crops</h3>
+                    <div class="value" id="totalCrops">0</div>
+                    <p>Active crop types</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Livestock Count</h3>
+                    <div class="value" id="totalLivestock">0</div>
+                    <p>Animals on farm</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Monthly Sales</h3>
+                    <div class="value" id="monthlySales">N$ 0</div>
+                    <p>This month's revenue</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Inventory Value</h3>
+                    <div class="value" id="inventoryValue">N$ 0</div>
+                    <p>Current stock worth</p>
+                </div>
+            </div>
+
+            <div class="dashboard-actions">
+                <a href="crops.html" class="action-card">
+                    <h3>🌱 Manage Crops</h3>
+                    <p>Add, edit, or view your crops</p>
+                </a>
+                <a href="livestock.html" class="action-card">
+                    <h3>🐄 Manage Livestock</h3>
+                    <p>Track your animals</p>
+                </a>
+                <a href="sales.html" class="action-card">
+                    <h3>💰 Record Sales</h3>
+                    <p>Add new sales transactions</p>
+                </a>
+                <a href="reports.html" class="action-card">
+                    <h3>📊 View Reports</h3>
+                    <p>Analytics and insights</p>
+                </a>
+            </div>
+
+            <div class="recent-activity">
+                <h2>Recent Activity</h2>
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Activity</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activityTable">
+                            <!-- Activity data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Farm Produce Tracker. Empowering Namibian Farmers.</p>
+        </div>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>
