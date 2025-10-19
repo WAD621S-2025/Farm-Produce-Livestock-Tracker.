@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Farm Produce Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE1IDI3LjVDMjEuOTAzNiAyNy41IDI3LjUgMjEuOTAzNiAyNy41IDE1QzI3LjUgOC4wOTY0NCAyMS45MDM2IDIuNSAxNSAyLjVDOC4wOTY0NCAyLjUgMi41IDguMDk2NDQgMi41IDE1QzIuNSAyMS45MDM2IDguMDk2NDQgMjcuNSAxNSAyNy41WiIgc3Ryb2tlPSIjM2NhMzc1IiBzdHJva2Utd2lkdGg9IjIiLz4KPHBhdGggZD0iTTEwIDEySDE5TTEwIDE3SDE2TTEwIDIySDE0IiBzdHJva2U9IiMzY2EzNzUiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4K" alt="Farm Logo">
+                <span>FarmTracker</span>
+            </div>
+            <button class="menu-toggle">☰</button>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
+                <li class="nav-item"><a href="register.html" class="nav-link active">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <h2>Join FarmTracker Today!</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label for="farmName">Farm Name</label>
+                <input type="text" id="farmName" name="farmName" required placeholder="Enter your farm name">
+            </div>
+            <div class="form-group">
+                <label for="location">Farm Location</label>
+                <input type="text" id="location" name="location" required placeholder="Enter farm location">
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Create a password">
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+            </div>
+        </form>
+        <div class="form-footer">
+            <p>Already have an account? <a href="login.html">Login here</a></p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Farm Produce Tracker. Empowering Namibian Farmers.</p>
+        </div>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>
