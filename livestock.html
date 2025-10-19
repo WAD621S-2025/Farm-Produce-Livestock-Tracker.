@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livestock Management - Farm Produce Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE1IDI3LjVDMjEuOTAzNiAyNy41IDI3LjUgMjEuOTAzNiAyNy41IDE1QzI3LjUgOC4wOTY0NCAyMS45MDM2IDIuNSAxNSAyLjVDOC4wOTY0NCAyLjUgMi41IDguMDk2NDQgMi41IDE1QzIuNSAyMS45MDM2IDguMDk2NDQgMjcuNSAxNSAyNy41WiIgc3Ryb2tlPSIjM2NhMzc1IiBzdHJva2Utd2lkdGg9IjIiLz4KPHBhdGggZD0iTTEwIDEySDE5TTEwIDE3SDE2TTEwIDIySDE0IiBzdHJva2U9IiMzY2EzNzUiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4K" alt="Farm Logo">
+                <span>FarmTracker</span>
+            </div>
+            <button class="menu-toggle">☰</button>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><a href="crops.html" class="nav-link">Crops</a></li>
+                <li class="nav-item"><a href="livestock.html" class="nav-link active">Livestock</a></li>
+                <li class="nav-item"><a href="sales.html" class="nav-link">Sales</a></li>
+                <li class="nav-item"><a href="reports.html" class="nav-link">Reports</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-content">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Livestock Management</h1>
+                <p>Track and manage all your animals in one place</p>
+                <button class="btn btn-primary" onclick="showAddLivestockForm()">Add New Livestock</button>
+            </div>
+
+            <!-- Add Livestock Form -->
+            <div id="addLivestockForm" class="form-container" style="display: none; margin: 20px auto;">
+                <h3>Add New Livestock</h3>
+                <form id="livestockForm">
+                    <div class="form-group">
+                        <label for="animalType">Animal Type</label>
+                        <select id="animalType" name="animalType" required>
+                            <option value="">Select type</option>
+                            <option value="Cattle">Cattle</option>
+                            <option value="Goats">Goats</option>
+                            <option value="Sheep">Sheep</option>
+                            <option value="Chickens">Chickens</option>
+                            <option value="Pigs">Pigs</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="breed">Breed</label>
+                        <input type="text" id="breed" name="breed" placeholder="e.g., Brahman, Boer">
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" id="quantity" name="quantity" required placeholder="Number of animals">
+                    </div>
+                    <div class="form-group">
+                        <label for="acquisitionDate">Acquisition Date</label>
+                        <input type="date" id="acquisitionDate" name="acquisitionDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="healthStatus">Health Status</label>
+                        <select id="healthStatus" name="healthStatus" required>
+                            <option value="healthy">Healthy</option>
+                            <option value="vaccinated">Vaccinated</option>
+                            <option value="sick">Sick</option>
+                            <option value="quarantined">Quarantined</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" name="notes" rows="3" placeholder="Any additional information"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Add Livestock</button>
+                        <button type="button" class="btn btn-secondary" onclick="hideAddLivestockForm()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Edit Livestock Form (will be inserted by JavaScript) -->
+            <div id="editLivestockContainer"></div>
+
+            <!-- Livestock Table -->
+            <div class="data-table">
+                <h3>Your Livestock</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Animal Type</th>
+                            <th>Breed</th>
+                            <th>Quantity</th>
+                            <th>Acquisition Date</th>
+                            <th>Health Status</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="livestockTable">
+                        <!-- Livestock data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Farm Produce Tracker. Empowering Namibian Farmers.</p>
+        </div>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>
